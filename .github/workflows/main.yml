@@ -33,7 +33,8 @@ jobs:
         run: flutter build apk --release  # Altere para o tipo de build que você precisa
 
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        #uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Atualize para v3
         with:
           name: my-app-apk
           path: build/app/outputs/flutter-apk/app-release.apk  # Altere se necessário
