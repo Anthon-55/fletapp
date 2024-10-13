@@ -1,0 +1,39 @@
+name: Flutter Build
+
+on:
+  push:
+    branches:
+      - main  # Altere para a branch que deseja monitorar
+  pull_request:
+    branches:
+      - main  # Altere para a branch que deseja monitorar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'  # Use a versão necessária para o seu projeto
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'  # Substitua pela versão do Flutter que você está usando
+
+      - name: Get Flutter packages
+        run: flutter pub get
+
+      - name: Run Flutter build
+        run: flutter build apk --release  # Altere para o tipo de build que você precisa
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-app-apk
+          path: build/app/outputs/flutter-apk/app-release.apk  # Altere se necessário
