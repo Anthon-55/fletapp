@@ -1,0 +1,17 @@
+workflows:
+  build:
+    name: Build Flet App
+    environment:
+      python: "3.10"  # Ou outra versão do Python que você deseja usar
+    scripts:
+      - name: Install dependencies
+        script: |
+          pip install flet  # Instala a biblioteca Flet
+          # Adicione outros pacotes necessários aqui, se houver
+      - name: Run Flet build
+        script: |
+          flet build apk --release  # Comando para construir seu app
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk  # Ajuste o caminho conforme necessário
+    publish:
+      email: youremail@example.com  # Seu e-mail para notificações, se desejado
