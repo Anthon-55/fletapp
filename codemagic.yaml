@@ -5,9 +5,9 @@ workflows:
       - name: Install dependencies
         script: |
           pip install flet  # Instala a biblioteca Flet
-          # Adicione outros pacotes necessários aqui, se houver
+          # Adicione outros pacotes necessários, se houver
       - name: Run Flet build
         script: |
-          flet build apk --release  # Comando para construir seu app
+          flet build apk  # Comando para construir seu app (sem --release)
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk  # Ajuste o caminho conforme necessário
