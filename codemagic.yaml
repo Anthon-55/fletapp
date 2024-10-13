@@ -10,4 +10,4 @@ workflows:
           flet build apk
           ls -la build/app/outputs/flutter-apk/  # Adiciona a listagem de arquivos para depuração
     artifacts:
-      - build/app/outputs/flutter-apk/app-release.apk
+      - build/**/outputs/**/*.apk  # Padrão para capturar qualquer APK gerado
