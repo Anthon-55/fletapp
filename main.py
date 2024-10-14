@@ -1,65 +1,203 @@
 import flet as ft
+#import sqlite3 as sq
 
-def main(page: ft.Page):
-    lt = ["Maca", "vinho"]
+"""
+def conectDB():
+    db = sq.connect('assets/database/db.db')
+    cursor = db.cursor()
+    return db, cursor
+db, cursor = conectDB()
+dados = cursor.execute('SELECT * FROM produtos').fetchall()
+"""
 
-    lista_prod = ft.ListView()
 
-    def cadastrar(e):
-        try:
-            lista_prod.controls.append(
+def main(page:ft.Page):
+    page.horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    page.vertical_alignment=ft.MainAxisAlignment.CENTER
+    #page.window_maximized = True
+
+    def _topContainer():
+        topContainer = ft.Row(
+            controls=[
                 ft.Container(
-                    ft.Text(produto.value),
-                    bgcolor = ft.colors.BLACK12,
-                    padding = 15,
-                    alignment = ft.alignment.center,
-                    margin=3,
-                    border_radius = 100
+                    width=335*0.32,
+                    height= 600*0.20,
+                    bgcolor = ft.colors.WHITE70,
+                    border_radius= 20
                 )
-            )
-            txt_error.visible = False
-            txt_acerpt.visible = True
-        except:
-            txt_error.visible = True
-            txt_acerpt.visible = False
-        page.update()
+            ]
+        )
+        return topContainer
 
-    txt_error = ft.Container(ft.Text("Erro ao cadastrar o produto"), visible=False, bgcolor = ft.colors.RED, padding=10, alignment = ft.alignment.center)
-    txt_acerpt = ft.Container(ft.Text("Sucesso ao cadastrar o produto"), visible=False, bgcolor = ft.colors.GREEN, padding=10, alignment = ft.alignment.center)
+    def _bottomContainer():
+        bottomContainer = ft.Container(
+            width = 335* 0.45,
+            height = 600*0.25,
+            bgcolor = ft.colors.GREEN_100,
+            border_radius= 20
+        )
+        return bottomContainer
 
-    
-    page.title = "Cadastro app"
-    txt_title = ft.Text("titulo de produto")
-    produto = ft.TextField(label="Digite o titulo do produto...", text_align=ft.TextAlign.LEFT)
 
-    txt_preco = ft.Text("Preço do produto")
-    preco = ft.TextField(value="0", label="Digite o preço do produto", text_align = ft.TextAlign.LEFT)
-    btn_produto = ft.ElevatedButton("Cadastrar", on_click=cadastrar)
-    
-    page.add(
-        txt_error,
-        txt_acerpt,
-        txt_title,
-        produto,
-        txt_preco,
-        preco,
-        btn_produto
-    )
-    for p in lt:
-        lista_prod.controls.append(
-            ft.Container(
-                ft.Text(p),
-                bgcolor = ft.colors.BLACK12,
-                padding = 15,
-                alignment = ft.alignment.center,
-                margin=3,
-                border_radius = 100
+    def _top():
+        top = ft.Container(
+            bgcolor = ft.colors.RED,
+            border_radius = 20,
+            width = 335,
+            height = 600 * 0.35,
+            padding = ft.padding.only(top=8, left=8, right=8),
+
+            content = ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Text(
+                                value = "Da Banda food",
+                                size=20,
+                                weight="bold",
+                                color="white"
+                            ),
+                            ft.Row(
+                                controls=[
+                                    ft.Stack(
+                                        controls=[
+                                            ft.IconButton(
+                                                icon=ft.icons.SHOPPING_CART,
+                                                icon_size=25,
+                                                icon_color=ft.colors.WHITE
+                                            ),
+                                            ft.Container(
+                                                width=40,
+                                                height= 20,
+                                                content=ft.Container(
+                                                    width=10,
+                                                    height= 20,
+                                                    alignment=ft.alignment.top_right,
+                                                    #bgcolor=ft.colors.BLACK,
+                                                    # border_radius=30,
+                                                    content=ft.Text(
+                                                        value="9+",
+                                                        size= 13,
+                                                        color = ft.colors.BLACK,
+                                                        weight = 'bold',
+                                                    )
+                                                )
+                                                
+                                            )
+                                        ]
+                                    )
+                                ]
+                               
+                            )
+                        ],
+                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                    ),
+                    ft.Row(
+                        controls=[
+                            _topContainer() for _ in range(4)
+                        ],
+                        spacing=3,
+                        scroll="auto"
+                    )
+                ]
             )
         )
+        return top
 
-    page.add(
-        lista_prod,
+    def _bottom():
+        bottom = ft.Container(
+            width=335,
+            height=600*0.98,
+            padding = ft.padding.only(top=600*0.35, left=8, right=8),
+            border_radius=20,
+            bgcolor = ft.colors.WHITE,
+
+            content=ft.Column(
+                controls=[
+                    ft.Tabs(
+                        selected_index = 0,
+
+                        tabs=[
+                            ft.Tab(
+                                text='Especial',
+                                content=ft.Container(
+                                    padding=ft.padding.only(top=10),
+                                    content = ft.Row(
+                                        controls=[_bottomContainer() for _ in range(4)],
+                                        wrap=True
+                                    )
+                                )
+                            ),#tab 1,
+
+                            ft.Tab(
+                                text='Hamburgers',
+                                content=ft.Container(
+                                    padding=ft.padding.only(top=10),
+                                    content = ft.Row(
+                                        controls=[_bottomContainer() for _ in range(4)],
+                                        wrap=True
+                                    )
+                                )
+                            ),#tab 1,
+                            
+                            ft.Tab(
+                                text='Bebidas',
+                                content=ft.Container(
+                                    padding=ft.padding.only(top=10),
+                                    content = ft.Row(
+                                        controls=[_bottomContainer() for _ in range(4)],
+                                        wrap=True
+                                    )
+                                )
+                            ),#tab 1,
+                            
+                            ft.Tab(
+                                text='Outros',
+                                content=ft.Container(
+                                    padding=ft.padding.only(top=10),
+                                    content = ft.Row(
+                                        controls=[_bottomContainer()],
+                                        wrap=True
+                                    )
+                                )
+                            ),#tab 1,
+                        ],
+
+                    ),
+                ]
+            )
+        )
+        return bottom
+
+    main = ft.Container(
+        width=350,
+        height = 620,
+        bgcolor = ft.colors.BLACK,
+        border_radius = 20,
+        content = ft.Column(
+            controls = [
+                ft.Container(
+                    width = 335,
+                    height = 600,
+                    bgcolor = ft.colors.RED,
+                    border_radius = 20,
+
+                    #controles principais da aplicação
+                    content = ft.Stack(
+                        controls=[
+                            _bottom(),
+                            _top()
+                        ]
+                    )
+                )
+            ],
+            alignment = ft.MainAxisAlignment.CENTER,
+            horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        )
     )
-        
+    page.add(
+        main
+    )
 
-ft.app(target=main)
+if __name__ == "__main__":
+    ft.app(target=main, assets_dir='assets')
