@@ -7,7 +7,7 @@ workflows:
           pip install flet
       - name: Run Flet build
         script: |
-          flet build apk --release --target-platform android-arm,android-arm64
+          flet build apk # --release --target-platform android-arm,android-arm64
           ls -la build/app/outputs/flutter-apk/  # Adiciona a listagem de arquivos para depuração
     artifacts:
       #- build/**/outputs/**/*.apk  # Padrão para capturar qualquer APK gerado
